@@ -3,12 +3,12 @@ package bsm.speaker.domain.group;
 import bsm.speaker.domain.group.dto.request.CreateGroupRequestDto;
 import bsm.speaker.domain.group.dto.request.GroupRequestDto;
 import bsm.speaker.domain.group.dto.response.CreateGroupResponseDto;
+import bsm.speaker.domain.group.dto.response.GroupResponseDto;
 import bsm.speaker.global.utils.UserUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("group")
@@ -17,6 +17,11 @@ public class GroupController {
 
     private final GroupService groupService;
     private final UserUtil userUtil;
+
+    @GetMapping
+    public List<GroupResponseDto> getGroupList() {
+        return groupService.getGroupList(userUtil.getCurrentUser());
+    }
 
     @PostMapping
     public CreateGroupResponseDto createGroup(@RequestBody CreateGroupRequestDto dto) {

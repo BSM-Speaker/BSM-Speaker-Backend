@@ -3,11 +3,13 @@ package bsm.speaker.domain.group;
 import bsm.speaker.domain.group.dto.request.CreateGroupRequestDto;
 import bsm.speaker.domain.group.dto.request.GroupRequestDto;
 import bsm.speaker.domain.group.dto.response.CreateGroupResponseDto;
+import bsm.speaker.domain.group.dto.response.GroupResponseDto;
 import bsm.speaker.domain.group.entities.Group;
 import bsm.speaker.domain.group.entities.Member;
 import bsm.speaker.domain.group.entities.MemberPk;
 import bsm.speaker.domain.group.repositories.GroupRepository;
 import bsm.speaker.domain.group.repositories.MemberRepository;
+import bsm.speaker.domain.user.dto.response.UserResponseDto;
 import bsm.speaker.domain.user.entities.User;
 import bsm.speaker.global.exceptions.ConflictException;
 import bsm.speaker.global.exceptions.NotFoundException;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.HexFormat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,23 @@ public class GroupService {
 
     private final GroupRepository groupRepository;
     private final MemberRepository memberRepository;
+
+    public List<GroupResponseDto> getGroupList(User user) {
+        return memberRepository.findAllByUser(user).stream().map(member -> {
+            Group group = member.getGroup();
+            return GroupResponseDto.builder()
+                    .id(group.getId())
+                    .name(group.getName())
+                    .description(group.getDescription())
+                    .members(group.getMembers().stream()
+                            .map(groupMember -> UserResponseDto.builder()
+                                    .code(groupMember.getUser().getUserCode())
+                                    .nickname(groupMember.getUser().getNickname())
+                                    .build()
+                            ).collect(Collectors.toList()))
+                    .build();
+        }).collect(Collectors.toList());
+    }
 
     public CreateGroupResponseDto createGroup(User user, CreateGroupRequestDto dto) {
         if (groupRepository.findByName(dto.getName()).isPresent()) {
@@ -37,6 +58,15 @@ public class GroupService {
                         .description(dto.getDescription())
                         .build()
         );
+        Member member = Member.builder()
+                .pk(
+                        MemberPk.builder()
+                                .groupId(groupId)
+                                .userCode(user.getUserCode())
+                                .build()
+                )
+                .build();
+        memberRepository.save(member);
 
         return CreateGroupResponseDto.builder()
                 .id(groupId)
