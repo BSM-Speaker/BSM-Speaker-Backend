@@ -1,5 +1,6 @@
 package bsm.speaker.domain.user;
 
+import bsm.speaker.domain.user.dto.response.UserInfoResponseDto;
 import bsm.speaker.global.utils.CookieUtil;
 import bsm.speaker.global.utils.JwtUtil;
 import bsm.speaker.global.utils.UserUtil;
@@ -32,8 +33,12 @@ public class UserController {
     private long JWT_REFRESH_TOKEN_MAX_TIME;
 
     @GetMapping()
-    public User getUserInfo() {
-        return userUtil.getCurrentUser();
+    public UserInfoResponseDto getUserInfo() {
+        User user = userUtil.getCurrentUser();
+        return UserInfoResponseDto.builder()
+                .userCode(user.getUserCode())
+                .nickname(user.getNickname())
+                .build();
     }
 
     @DeleteMapping("logout")

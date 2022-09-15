@@ -1,4 +1,4 @@
-package bsm.speaker.domain.group;
+package bsm.speaker.domain.group.entities;
 
 import bsm.speaker.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -6,10 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,6 +25,9 @@ public class Group extends BaseTimeEntity {
 
     @Column
     private String description;
+
+    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private final List<Member> members = new ArrayList<>();
 
     @Builder
     public Group(String id, String name, String description) {
