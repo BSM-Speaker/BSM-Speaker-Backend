@@ -25,4 +25,9 @@ public class PostController {
     public void writePost(@RequestBody PostWriteRequestDto dto) {
         postService.writePost(userUtil.getCurrentUser(), dto);
     }
+
+    @DeleteMapping("{postId}")
+    public void deletePost(@PathVariable("postId") long postId) {
+        postService.deletePost(userUtil.getCurrentUser(), postId);
+    }
 }

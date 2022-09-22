@@ -6,11 +6,13 @@ import bsm.speaker.domain.post.dto.request.PostWriteRequestDto;
 import bsm.speaker.domain.post.dto.response.PostResponseDto;
 import bsm.speaker.domain.user.dto.response.UserResponseDto;
 import bsm.speaker.domain.user.entities.User;
+import bsm.speaker.global.exceptions.ForbiddenException;
 import bsm.speaker.global.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,5 +51,15 @@ public class PostService {
                 .groupId(dto.getGroupId())
                 .build();
         postRepository.save(newPost);
+    }
+
+    public void deletePost(User user, long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> {throw new NotFoundException("게시글을 찾을 수 없습니다");}
+        );
+        if (!Objects.equals(post.getUserCode(), user.getUserCode())) {
+            throw new ForbiddenException("권한이 없습니다");
+        }
+        postRepository.delete(post);
     }
 }
