@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -21,16 +23,16 @@ public class Member extends BaseTimeEntity {
     })
     private MemberPk pk;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "groupId", insertable = false, updatable = false)
     private Group group;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "userCode", insertable = false, updatable = false)
     private User user;
 
     @Builder
-    public Member(MemberPk pk, Group group, User user) {
+    public Member(MemberPk pk, Group group, Long userCode, User user) {
         this.pk = pk;
         this.group = group;
         this.user = user;
