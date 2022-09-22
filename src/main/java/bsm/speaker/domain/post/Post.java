@@ -2,6 +2,7 @@ package bsm.speaker.domain.post;
 
 import bsm.speaker.domain.group.entities.Group;
 import bsm.speaker.domain.user.entities.User;
+import bsm.speaker.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post {
+public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
