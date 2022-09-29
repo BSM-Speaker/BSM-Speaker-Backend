@@ -2,6 +2,7 @@ package bsm.speaker.domain.post;
 
 import bsm.speaker.domain.group.repositories.GroupRepository;
 import bsm.speaker.domain.group.repositories.MemberRepository;
+import bsm.speaker.domain.post.dto.request.PostListRequestDto;
 import bsm.speaker.domain.post.dto.request.PostWriteRequestDto;
 import bsm.speaker.domain.post.dto.response.PostResponseDto;
 import bsm.speaker.domain.user.dto.response.UserResponseDto;
@@ -9,6 +10,8 @@ import bsm.speaker.domain.user.entities.User;
 import bsm.speaker.global.exceptions.ForbiddenException;
 import bsm.speaker.global.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +25,9 @@ public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
 
-    public List<PostResponseDto> postList(String groupId) {
-        return postRepository.findByGroupId(groupId).stream().map(
+    public List<PostResponseDto> postList(PostListRequestDto dto) {
+        Pageable pageable = PageRequest.of(dto.getPage() - 1, dto.getLimit());
+        return postRepository.findByGroupId(dto.getGroupId(), pageable).stream().map(
                 post -> PostResponseDto.builder()
                         .id(post.getId())
                         .title(post.getTitle())

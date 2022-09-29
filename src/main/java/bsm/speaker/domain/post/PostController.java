@@ -1,5 +1,6 @@
 package bsm.speaker.domain.post;
 
+import bsm.speaker.domain.post.dto.request.PostListRequestDto;
 import bsm.speaker.domain.post.dto.request.PostWriteRequestDto;
 import bsm.speaker.domain.post.dto.response.PostResponseDto;
 import bsm.speaker.global.utils.UserUtil;
@@ -16,9 +17,13 @@ public class PostController {
     private final PostService postService;
     private final UserUtil userUtil;
 
-    @GetMapping("{groupId}")
-    public List<PostResponseDto> postList(@PathVariable("groupId") String groupId) {
-        return postService.postList(groupId);
+    @GetMapping
+    public List<PostResponseDto> postList(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "limit", defaultValue = "15") int limit,
+            @RequestParam(value = "groupId", defaultValue = "") String groupId
+    ) {
+        return postService.postList(new PostListRequestDto(page, limit, groupId));
     }
 
     @PostMapping
