@@ -1,7 +1,7 @@
 package bsm.speaker.global.auth;
 
-import bsm.speaker.global.exceptions.NotFoundException;
-import bsm.speaker.global.exceptions.UnAuthorizedException;
+import bsm.speaker.global.error.exceptions.NotFoundException;
+import bsm.speaker.global.error.exceptions.UnAuthorizedException;
 import bsm.speaker.global.utils.CookieUtil;
 import bsm.speaker.global.utils.JwtUtil;
 import bsm.speaker.domain.user.entities.User;

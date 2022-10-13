@@ -1,4 +1,4 @@
-package bsm.speaker.global.exceptions;
+package bsm.speaker.global.error.exceptions;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

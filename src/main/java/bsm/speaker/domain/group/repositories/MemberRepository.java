@@ -1,5 +1,6 @@
 package bsm.speaker.domain.group.repositories;
 
+import bsm.speaker.domain.group.entities.Group;
 import bsm.speaker.domain.group.entities.Member;
 import bsm.speaker.domain.group.entities.MemberPk;
 import bsm.speaker.domain.user.entities.User;
@@ -13,4 +14,7 @@ public interface MemberRepository extends JpaRepository<Member, MemberPk> {
     List<Member> findAllByUser(User user);
 
     Optional<Member> findByPkUserCodeAndGroupId(long userCode, String groupId);
+
+    List<Member> findAllByPkGroupId(String groupId);
+
 }

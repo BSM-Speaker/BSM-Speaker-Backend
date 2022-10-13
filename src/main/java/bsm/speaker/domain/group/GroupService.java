@@ -11,8 +11,8 @@ import bsm.speaker.domain.group.repositories.GroupRepository;
 import bsm.speaker.domain.group.repositories.MemberRepository;
 import bsm.speaker.domain.user.dto.response.UserResponseDto;
 import bsm.speaker.domain.user.entities.User;
-import bsm.speaker.global.exceptions.ConflictException;
-import bsm.speaker.global.exceptions.NotFoundException;
+import bsm.speaker.global.error.exceptions.ConflictException;
+import bsm.speaker.global.error.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -25,7 +25,7 @@ public class WebPush extends BaseTimeEntity {
     @Column
     private String p256dh;
 
-    @Column
+    @Column(columnDefinition = "INT UNSIGNED")
     private Long userCode;
 
     @OneToOne

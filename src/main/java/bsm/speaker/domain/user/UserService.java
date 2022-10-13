@@ -2,7 +2,7 @@ package bsm.speaker.domain.user;
 
 import bsm.speaker.domain.user.dto.BsmOauthTokenResponseDto;
 import bsm.speaker.domain.user.dto.UserSignUpDto;
-import bsm.speaker.global.exceptions.NotFoundException;
+import bsm.speaker.global.error.exceptions.NotFoundException;
 import bsm.speaker.domain.user.dto.BsmOauthResourceResponseDto;
 import bsm.speaker.domain.user.entities.User;
 import bsm.speaker.domain.user.repositories.UserRepository;
@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

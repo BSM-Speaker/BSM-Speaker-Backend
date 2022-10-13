@@ -1,6 +1,5 @@
 package bsm.speaker.global.webpush;
 
-import bsm.speaker.global.exceptions.InternalServerException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import bsm.speaker.domain.webpush.domain.WebPush;
