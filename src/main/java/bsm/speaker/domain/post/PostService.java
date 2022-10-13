@@ -27,7 +27,7 @@ public class PostService {
 
     public List<PostResponseDto> postList(PostListRequestDto dto) {
         Pageable pageable = PageRequest.of(dto.getPage() - 1, dto.getLimit());
-        return postRepository.findByGroupId(dto.getGroupId(), pageable).stream().map(
+        return postRepository.findByGroupIdOrderByIdDesc(dto.getGroupId(), pageable).stream().map(
                 post -> PostResponseDto.builder()
                         .id(post.getId())
                         .title(post.getTitle())
