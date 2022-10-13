@@ -8,6 +8,7 @@ import bsm.speaker.global.utils.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,7 @@ public class GroupController {
     }
 
     @PostMapping
-    public CreateGroupResponseDto createGroup(@RequestBody CreateGroupRequestDto dto) {
+    public CreateGroupResponseDto createGroup(@Valid @RequestBody CreateGroupRequestDto dto) {
         return groupService.createGroup(userUtil.getCurrentUser(), dto);
     }
 

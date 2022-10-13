@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,7 +29,7 @@ public class PostController {
     }
 
     @PostMapping
-    public void writePost(@RequestBody PostWriteRequestDto dto) throws JsonProcessingException {
+    public void writePost(@RequestBody @Valid PostWriteRequestDto dto) throws JsonProcessingException {
         postService.writePost(userUtil.getCurrentUser(), dto);
     }
 

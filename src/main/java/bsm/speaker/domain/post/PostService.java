@@ -13,12 +13,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class PostService {
 
@@ -26,7 +29,7 @@ public class PostService {
     private final MemberRepository memberRepository;
     private final PostNotification postNotification;
 
-    public List<PostResponseDto> postList(PostListRequestDto dto) {
+    public List<PostResponseDto> postList(@Valid PostListRequestDto dto) {
         Pageable pageable = PageRequest.of(dto.getPage() - 1, dto.getLimit());
         return postRepository.findByGroupIdOrderByIdDesc(dto.getGroupId(), pageable).stream().map(
                 post -> PostResponseDto.builder()
