@@ -1,6 +1,6 @@
 package bsm.speaker.domain.webpush.service;
 
-import bsm.speaker.domain.user.entities.User;
+import bsm.speaker.domain.user.domain.User;
 import bsm.speaker.domain.webpush.domain.WebPush;
 import bsm.speaker.domain.webpush.domain.repository.WebPushRepository;
 import bsm.speaker.domain.webpush.presentation.dto.request.WebPushSubscribeRequest;

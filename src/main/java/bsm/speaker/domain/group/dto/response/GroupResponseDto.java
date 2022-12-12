@@ -1,7 +1,6 @@
 package bsm.speaker.domain.group.dto.response;
 
-import bsm.speaker.domain.user.dto.response.UserResponseDto;
-import lombok.AllArgsConstructor;
+import bsm.speaker.domain.user.domain.dto.response.UserResponse;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,5 +13,5 @@ public class GroupResponseDto {
     private String id;
     private String name;
     private String description;
-    private List<UserResponseDto> members;
+    private List<UserResponse> members;
 }

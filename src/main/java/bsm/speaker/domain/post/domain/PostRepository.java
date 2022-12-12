@@ -1,5 +1,6 @@
-package bsm.speaker.domain.post;
+package bsm.speaker.domain.post.domain;
 
+import bsm.speaker.domain.post.domain.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

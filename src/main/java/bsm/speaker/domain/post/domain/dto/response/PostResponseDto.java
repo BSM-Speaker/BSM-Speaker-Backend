@@ -1,6 +1,6 @@
-package bsm.speaker.domain.post.dto.response;
+package bsm.speaker.domain.post.domain.dto.response;
 
-import bsm.speaker.domain.user.dto.response.UserResponseDto;
+import bsm.speaker.domain.user.domain.dto.response.UserResponse;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,7 +12,8 @@ public class PostResponseDto {
 
     private long id;
     private String title;
-    private UserResponseDto user;
-    private int hit;
+    private String content;
+    private UserResponse user;
     private LocalDateTime createdAt;
+    private boolean permission;
 }

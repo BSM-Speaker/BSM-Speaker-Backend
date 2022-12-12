@@ -1,13 +1,12 @@
-package bsm.speaker.domain.post;
+package bsm.speaker.domain.post.domain;
 
 import bsm.speaker.domain.group.entities.Group;
-import bsm.speaker.domain.user.entities.User;
+import bsm.speaker.domain.user.domain.User;
 import bsm.speaker.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -41,12 +40,8 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String content;
 
-    @Column(nullable = false, columnDefinition = "INT UNSIGNED")
-    @ColumnDefault("0")
-    private int hit;
-
     @Builder
-    public Post(long id, String groupId, Group group, Long userCode, User user, String title, String content, int hit) {
+    public Post(long id, String groupId, Group group, Long userCode, User user, String title, String content) {
         this.id = id;
         this.groupId = groupId;
         this.group = group;
@@ -54,6 +49,5 @@ public class Post extends BaseTimeEntity {
         this.user = user;
         this.title = title;
         this.content = content;
-        this.hit = hit;
     }
 }

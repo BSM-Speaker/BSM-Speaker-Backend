@@ -1,7 +1,7 @@
 package bsm.speaker.global.auth;
 
 import bsm.speaker.global.error.exceptions.NotFoundException;
-import bsm.speaker.domain.user.repositories.UserRepository;
+import bsm.speaker.domain.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

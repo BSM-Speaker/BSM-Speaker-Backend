@@ -1,11 +1,13 @@
-package bsm.speaker.domain.post;
+package bsm.speaker.domain.post.service;
 
 import bsm.speaker.domain.group.repositories.MemberRepository;
-import bsm.speaker.domain.post.dto.request.PostListRequestDto;
-import bsm.speaker.domain.post.dto.request.PostWriteRequestDto;
-import bsm.speaker.domain.post.dto.response.PostResponseDto;
-import bsm.speaker.domain.user.dto.response.UserResponseDto;
-import bsm.speaker.domain.user.entities.User;
+import bsm.speaker.domain.post.domain.Post;
+import bsm.speaker.domain.post.domain.PostRepository;
+import bsm.speaker.domain.post.domain.dto.request.PostListRequestDto;
+import bsm.speaker.domain.post.domain.dto.request.PostWriteRequestDto;
+import bsm.speaker.domain.post.domain.dto.response.PostResponseDto;
+import bsm.speaker.domain.user.domain.dto.response.UserResponse;
+import bsm.speaker.domain.user.domain.User;
 import bsm.speaker.global.error.exceptions.ForbiddenException;
 import bsm.speaker.global.error.exceptions.NotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,22 +29,23 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
-    private final PostNotification postNotification;
+    private final PostNotificationService postNotification;
 
-    public List<PostResponseDto> postList(@Valid PostListRequestDto dto) {
+    public List<PostResponseDto> postList(@Valid PostListRequestDto dto, User user) {
         Pageable pageable = PageRequest.of(dto.getPage() - 1, dto.getLimit());
         return postRepository.findByGroupIdOrderByIdDesc(dto.getGroupId(), pageable).stream().map(
                 post -> PostResponseDto.builder()
                         .id(post.getId())
                         .title(post.getTitle())
-                        .hit(post.getHit())
+                        .content(post.getContent())
                         .user(
-                                UserResponseDto.builder()
+                                UserResponse.builder()
                                         .code(post.getUserCode())
                                         .nickname(post.getUser().getNickname())
                                         .build()
                         )
                         .createdAt(post.getCreatedAt())
+                        .permission(Objects.equals(post.getUserCode(), user.getUserCode()))
                         .build()
         ).collect(Collectors.toList());
     }

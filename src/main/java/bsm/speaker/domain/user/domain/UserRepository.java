@@ -1,6 +1,6 @@
-package bsm.speaker.domain.user.repositories;
+package bsm.speaker.domain.user.domain;
 
-import bsm.speaker.domain.user.entities.User;
+import bsm.speaker.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

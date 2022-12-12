@@ -1,8 +1,9 @@
-package bsm.speaker.domain.post;
+package bsm.speaker.domain.post.service;
 
 import bsm.speaker.domain.group.entities.Member;
 import bsm.speaker.domain.group.repositories.MemberRepository;
-import bsm.speaker.domain.user.entities.User;
+import bsm.speaker.domain.post.domain.Post;
+import bsm.speaker.domain.user.domain.User;
 import bsm.speaker.domain.webpush.domain.WebPush;
 import bsm.speaker.domain.webpush.domain.repository.WebPushRepository;
 import bsm.speaker.domain.webpush.presentation.dto.request.WebPushSendDto;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class PostNotification {
+public class PostNotificationService {
 
     private final WebPushUtil webPushUtil;
     private final WebPushRepository webPushRepository;
@@ -25,7 +26,7 @@ public class PostNotification {
         WebPushSendDto webPushSendDto = WebPushSendDto.builder()
                 .title("새로운 긴급 정보가 올라왔습니다")
                 .body(post.getTitle())
-                .link("http://localhost:3000/detail/"+post.getGroupId())
+                .link("https://speaker.bssm.kro.kr/detail/"+post.getGroupId())
                 .build();
         List<User> userList = memberRepository.findAllByPkGroupId(post.getGroupId())
                 .stream().map(Member::getUser)

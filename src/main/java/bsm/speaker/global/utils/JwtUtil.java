@@ -1,8 +1,8 @@
 package bsm.speaker.global.utils;
 
-import bsm.speaker.domain.user.entities.RefreshToken;
-import bsm.speaker.domain.user.entities.User;
-import bsm.speaker.domain.user.repositories.RefreshTokenRepository;
+import bsm.speaker.domain.user.domain.RefreshToken;
+import bsm.speaker.domain.user.domain.User;
+import bsm.speaker.domain.user.domain.RefreshTokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

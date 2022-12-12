@@ -1,6 +1,6 @@
 package bsm.speaker.global.auth;
 
-import bsm.speaker.domain.user.entities.User;
+import bsm.speaker.domain.user.domain.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

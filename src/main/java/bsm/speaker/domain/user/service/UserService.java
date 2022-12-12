@@ -1,11 +1,11 @@
-package bsm.speaker.domain.user;
+package bsm.speaker.domain.user.service;
 
-import bsm.speaker.domain.user.dto.BsmOauthTokenResponseDto;
-import bsm.speaker.domain.user.dto.UserSignUpDto;
+import bsm.speaker.domain.user.domain.dto.response.BsmOauthTokenResponse;
+import bsm.speaker.domain.user.domain.dto.request.UserSignUpRequest;
 import bsm.speaker.global.error.exceptions.NotFoundException;
-import bsm.speaker.domain.user.dto.BsmOauthResourceResponseDto;
-import bsm.speaker.domain.user.entities.User;
-import bsm.speaker.domain.user.repositories.UserRepository;
+import bsm.speaker.domain.user.domain.dto.response.BsmOauthResourceResponse;
+import bsm.speaker.domain.user.domain.User;
+import bsm.speaker.domain.user.domain.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
@@ -36,7 +36,7 @@ public class UserService {
     private String OAUTH_BSM_RESOURCE_URL;
 
     @Transactional
-    public User signUp(UserSignUpDto dto, String oauthToken) {
+    public User signUp(UserSignUpRequest dto, String oauthToken) {
         User user = User.builder()
                 .userCode(dto.getUserCode())
                 .nickname(dto.getNickname())
@@ -62,7 +62,7 @@ public class UserService {
         if (tokenResponse.code() == 404) {
             throw new NotFoundException("인증 코드를 찾을 수 없습니다");
         }
-        BsmOauthTokenResponseDto tokenResponseDto = objectMapper.readValue(Objects.requireNonNull(tokenResponse.body()).string(), BsmOauthTokenResponseDto.class);
+        BsmOauthTokenResponse tokenResponseDto = objectMapper.readValue(Objects.requireNonNull(tokenResponse.body()).string(), BsmOauthTokenResponse.class);
 
         // Payload
         Map<String, String> getResourcePayload = new HashMap<>();
@@ -76,7 +76,7 @@ public class UserService {
                 .post(RequestBody.create(MediaType.parse("application/json"), objectMapper.writeValueAsString(getResourcePayload)))
                 .build();
         Response resourceResponse = httpClient.newCall(resourceRequest).execute();
-        BsmOauthResourceResponseDto resourceResponseDto = objectMapper.readValue(Objects.requireNonNull(resourceResponse.body()).string(), BsmOauthResourceResponseDto.class);
+        BsmOauthResourceResponse resourceResponseDto = objectMapper.readValue(Objects.requireNonNull(resourceResponse.body()).string(), BsmOauthResourceResponse.class);
 
         // 없는 유저면 회원가입 후 유저 리턴, 이미 있으면 유저를 바로 리턴
         return userRepository.findById(resourceResponseDto.getUser().getUserCode()).orElseGet(

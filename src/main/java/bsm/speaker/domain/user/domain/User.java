@@ -1,4 +1,4 @@
-package bsm.speaker.domain.user.entities;
+package bsm.speaker.domain.user.domain;
 
 import bsm.speaker.global.entity.BaseTimeEntity;
 import lombok.*;

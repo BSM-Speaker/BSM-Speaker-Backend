@@ -1,11 +1,12 @@
-package bsm.speaker.domain.user;
+package bsm.speaker.domain.user.presentation;
 
-import bsm.speaker.domain.user.dto.response.UserInfoResponseDto;
+import bsm.speaker.domain.user.domain.dto.response.UserInfoResponse;
+import bsm.speaker.domain.user.service.UserService;
 import bsm.speaker.global.utils.CookieUtil;
 import bsm.speaker.global.utils.JwtUtil;
 import bsm.speaker.global.utils.UserUtil;
-import bsm.speaker.domain.user.dto.response.UserLoginResponseDto;
-import bsm.speaker.domain.user.entities.User;
+import bsm.speaker.domain.user.domain.dto.response.UserLoginResponse;
+import bsm.speaker.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +34,9 @@ public class UserController {
     private long JWT_REFRESH_TOKEN_MAX_TIME;
 
     @GetMapping()
-    public UserInfoResponseDto getUserInfo() {
+    public UserInfoResponse getUserInfo() {
         User user = userUtil.getCurrentUser();
-        return UserInfoResponseDto.builder()
+        return UserInfoResponse.builder()
                 .userCode(user.getUserCode())
                 .nickname(user.getNickname())
                 .build();
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/oauth/bsm")
-    public UserLoginResponseDto bsmOauth(@RequestParam(value = "code") String authCode, HttpServletResponse res) throws Exception {
+    public UserLoginResponse bsmOauth(@RequestParam(value = "code") String authCode, HttpServletResponse res) throws Exception {
         User user = userService.bsmOauth(authCode);
 
         String token = jwtUtil.createAccessToken(user);
@@ -58,7 +59,7 @@ public class UserController {
         res.addCookie(tokenCookie);
         res.addCookie(refreshTokenCookie);
 
-        return UserLoginResponseDto.builder()
+        return UserLoginResponse.builder()
                 .accessToken(token)
                 .refreshToken(refreshToken)
                 .build();

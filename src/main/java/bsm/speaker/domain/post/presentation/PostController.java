@@ -1,8 +1,9 @@
-package bsm.speaker.domain.post;
+package bsm.speaker.domain.post.presentation;
 
-import bsm.speaker.domain.post.dto.request.PostListRequestDto;
-import bsm.speaker.domain.post.dto.request.PostWriteRequestDto;
-import bsm.speaker.domain.post.dto.response.PostResponseDto;
+import bsm.speaker.domain.post.domain.dto.request.PostListRequestDto;
+import bsm.speaker.domain.post.domain.dto.request.PostWriteRequestDto;
+import bsm.speaker.domain.post.domain.dto.response.PostResponseDto;
+import bsm.speaker.domain.post.service.PostService;
 import bsm.speaker.global.utils.UserUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class PostController {
             @RequestParam(value = "limit", defaultValue = "15") int limit,
             @RequestParam(value = "groupId", defaultValue = "") String groupId
     ) {
-        return postService.postList(new PostListRequestDto(page, limit, groupId));
+        return postService.postList(new PostListRequestDto(page, limit, groupId), userUtil.getCurrentUser());
     }
 
     @PostMapping

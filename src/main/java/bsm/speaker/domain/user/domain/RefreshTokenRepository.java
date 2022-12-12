@@ -1,6 +1,6 @@
-package bsm.speaker.domain.user.repositories;
+package bsm.speaker.domain.user.domain;
 
-import bsm.speaker.domain.user.entities.RefreshToken;
+import bsm.speaker.domain.user.domain.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
