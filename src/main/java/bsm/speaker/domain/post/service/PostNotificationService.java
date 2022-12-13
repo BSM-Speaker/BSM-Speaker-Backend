@@ -26,7 +26,7 @@ public class PostNotificationService {
         WebPushSendDto webPushSendDto = WebPushSendDto.builder()
                 .title("새로운 긴급 정보가 올라왔습니다")
                 .body(post.getTitle())
-                .link("https://speaker.bssm.kro.kr/detail/"+post.getGroupId())
+                .link("https://speaker.bssm.kro.kr/group/"+post.getGroupId())
                 .build();
         List<User> userList = memberRepository.findAllByPkGroupId(post.getGroupId())
                 .stream().map(Member::getUser)

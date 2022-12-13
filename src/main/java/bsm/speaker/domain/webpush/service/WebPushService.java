@@ -4,11 +4,10 @@ import bsm.speaker.domain.user.domain.User;
 import bsm.speaker.domain.webpush.domain.WebPush;
 import bsm.speaker.domain.webpush.domain.repository.WebPushRepository;
 import bsm.speaker.domain.webpush.presentation.dto.request.WebPushSubscribeRequest;
+import bsm.speaker.global.error.exceptions.NotFoundException;
 import bsm.speaker.global.utils.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,9 +32,9 @@ public class WebPushService {
         webpushRepository.save(webPush);
     }
 
-    public void unsubscribe() {
-        List<WebPush> webPushList = webpushRepository.findAllByUserCode(userUtil.getCurrentUser().getUserCode());
-        webpushRepository.deleteAll(webPushList);
+    public void unsubscribe(String endpoint) {
+        WebPush webPush = webpushRepository.findById(endpoint).orElseThrow(NotFoundException::new);
+        webpushRepository.delete(webPush);
     }
 
 }
