@@ -55,15 +55,16 @@ public class SocketService {
     }
 
     private void onConnect(SocketIOClient client) {
-        List<String> cookieHeader = client.getHandshakeData().getHttpHeaders()
-                .getAll(HttpHeaderNames.COOKIE);
+        String cookieHeaders = client.getHandshakeData().getHttpHeaders()
+                .get(HttpHeaderNames.COOKIE);
         try {
-            String token = socketUtil.getCookieByCookieHeader(cookieHeader, TOKEN_COOKIE_NAME).value();
+            String token = socketUtil.getCookieByCookieHeader(cookieHeaders, TOKEN_COOKIE_NAME).value();
             User user = userRepository.findById(
                     new UserInfo(jwtUtil.getUser(token)).getUser().getUserCode()
             ).orElseThrow(NotFoundException::new);
             socketClientProvider.addClient(user, client);
         } catch (Exception e) {
+            e.printStackTrace();
             client.sendEvent(SocketEvent.UNAUTHORIZED);
             client.disconnect();
         }

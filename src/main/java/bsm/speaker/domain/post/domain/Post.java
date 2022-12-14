@@ -1,7 +1,10 @@
 package bsm.speaker.domain.post.domain;
 
 import bsm.speaker.domain.group.entities.Group;
+import bsm.speaker.domain.post.domain.dto.response.PostResponseDto;
 import bsm.speaker.domain.user.domain.User;
+import bsm.speaker.domain.user.domain.dto.response.UserResponse;
+import bsm.speaker.domain.user.facade.UserFacade;
 import bsm.speaker.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -9,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -49,5 +53,17 @@ public class Post extends BaseTimeEntity {
         this.user = user;
         this.title = title;
         this.content = content;
+    }
+
+    public PostResponseDto toResponse(UserFacade userFacade, User user) {
+        return PostResponseDto.builder()
+                .groupId(groupId)
+                .id(id)
+                .title(title)
+                .content(content)
+                .user(userFacade.toBoardUserResponse(user))
+                .createdAt(getCreatedAt())
+                .permission(Objects.equals(userCode, user.getUserCode()))
+                .build();
     }
 }

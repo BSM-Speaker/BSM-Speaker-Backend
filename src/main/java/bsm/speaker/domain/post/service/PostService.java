@@ -6,8 +6,8 @@ import bsm.speaker.domain.post.domain.PostRepository;
 import bsm.speaker.domain.post.domain.dto.request.PostListRequestDto;
 import bsm.speaker.domain.post.domain.dto.request.PostWriteRequestDto;
 import bsm.speaker.domain.post.domain.dto.response.PostResponseDto;
-import bsm.speaker.domain.user.domain.dto.response.UserResponse;
 import bsm.speaker.domain.user.domain.User;
+import bsm.speaker.domain.user.facade.UserFacade;
 import bsm.speaker.global.error.exceptions.ForbiddenException;
 import bsm.speaker.global.error.exceptions.NotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,7 +20,6 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @Validated
@@ -30,24 +29,13 @@ public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
     private final PostNotificationService postNotification;
+    private final UserFacade userFacade;
 
     public List<PostResponseDto> postList(@Valid PostListRequestDto dto, User user) {
         Pageable pageable = PageRequest.of(dto.getPage() - 1, dto.getLimit());
-        return postRepository.findByGroupIdOrderByIdDesc(dto.getGroupId(), pageable).stream().map(
-                post -> PostResponseDto.builder()
-                        .id(post.getId())
-                        .title(post.getTitle())
-                        .content(post.getContent())
-                        .user(
-                                UserResponse.builder()
-                                        .code(post.getUserCode())
-                                        .nickname(post.getUser().getNickname())
-                                        .build()
-                        )
-                        .createdAt(post.getCreatedAt())
-                        .permission(Objects.equals(post.getUserCode(), user.getUserCode()))
-                        .build()
-        ).collect(Collectors.toList());
+        return postRepository.findByGroupIdOrderByIdDesc(dto.getGroupId(), pageable).stream()
+                .map(post -> post.toResponse(userFacade, post.getUser()))
+                .toList();
     }
 
     public void writePost(User user, PostWriteRequestDto dto) throws JsonProcessingException {

@@ -10,6 +10,7 @@ import io.netty.handler.codec.http.cookie.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -26,8 +27,8 @@ public class SocketUtil {
         );
     }
 
-    public Cookie getCookieByCookieHeader(List<String> cookieHeader, String name) {
-        List<Cookie> cookies = cookieHeader.stream()
+    public Cookie getCookieByCookieHeader(String cookieHeaders, String name) {
+        List<Cookie> cookies = Arrays.stream(cookieHeaders.split(" "))
                 .map(ClientCookieDecoder.LAX::decode)
                 .toList();
         if (cookies == null) return null;
