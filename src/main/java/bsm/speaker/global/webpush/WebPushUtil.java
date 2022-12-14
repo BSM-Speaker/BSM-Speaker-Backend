@@ -9,14 +9,10 @@ import lombok.RequiredArgsConstructor;
 import nl.martijndwars.webpush.Notification;
 import nl.martijndwars.webpush.PushService;
 import nl.martijndwars.webpush.Subscription;
-import org.jose4j.lang.JoseException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
