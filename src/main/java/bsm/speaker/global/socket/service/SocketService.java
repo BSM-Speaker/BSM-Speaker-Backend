@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,16 +32,7 @@ public class SocketService {
 
 
     @PostConstruct
-    private void autoStartup() throws Exception {
-        start();
-    }
-
-    @PreDestroy
-    private void autoStop() throws Exception  {
-        stop();
-    }
-
-    public void start() {
+    private void autoStartup() {
         socketIOServer.addConnectListener(this::onConnect);
 
         socketIOServer.addDisconnectListener(socketClientProvider::removeClient);
@@ -50,7 +40,8 @@ public class SocketService {
         socketIOServer.start();
     }
 
-    public void stop() {
+    @PreDestroy
+    private void autoStop() {
         socketIOServer.stop();
     }
 
@@ -64,7 +55,6 @@ public class SocketService {
             ).orElseThrow(NotFoundException::new);
             socketClientProvider.addClient(user, client);
         } catch (Exception e) {
-            e.printStackTrace();
             client.sendEvent(SocketEvent.UNAUTHORIZED);
             client.disconnect();
         }

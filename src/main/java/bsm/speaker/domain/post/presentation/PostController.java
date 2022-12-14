@@ -1,6 +1,7 @@
 package bsm.speaker.domain.post.presentation;
 
 import bsm.speaker.domain.post.domain.dto.request.PostListRequestDto;
+import bsm.speaker.domain.post.domain.dto.request.PostViewRequestDto;
 import bsm.speaker.domain.post.domain.dto.request.PostWriteRequestDto;
 import bsm.speaker.domain.post.domain.dto.response.PostResponseDto;
 import bsm.speaker.domain.post.service.PostService;
@@ -37,5 +38,13 @@ public class PostController {
     @DeleteMapping("{postId}")
     public void deletePost(@PathVariable("postId") long postId) {
         postService.deletePost(userUtil.getCurrentUser(), postId);
+    }
+
+    @GetMapping("view/{groupId}/{postId}")
+    public void deletePost(
+            @PathVariable("groupId") String groupId,
+            @PathVariable("postId") long postId
+    ) {
+        postService.viewPost(userUtil.getCurrentUser(), new PostViewRequestDto(postId, groupId));
     }
 }

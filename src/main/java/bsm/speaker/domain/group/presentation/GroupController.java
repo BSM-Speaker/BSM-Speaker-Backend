@@ -1,9 +1,10 @@
-package bsm.speaker.domain.group;
+package bsm.speaker.domain.group.presentation;
 
-import bsm.speaker.domain.group.dto.request.CreateGroupRequestDto;
-import bsm.speaker.domain.group.dto.request.GroupRequestDto;
-import bsm.speaker.domain.group.dto.response.CreateGroupResponseDto;
-import bsm.speaker.domain.group.dto.response.GroupResponseDto;
+import bsm.speaker.domain.group.service.GroupService;
+import bsm.speaker.domain.group.domain.dto.request.CreateGroupRequestDto;
+import bsm.speaker.domain.group.domain.dto.request.GroupRequestDto;
+import bsm.speaker.domain.group.domain.dto.response.CreateGroupResponseDto;
+import bsm.speaker.domain.group.domain.dto.response.GroupResponseDto;
 import bsm.speaker.global.utils.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

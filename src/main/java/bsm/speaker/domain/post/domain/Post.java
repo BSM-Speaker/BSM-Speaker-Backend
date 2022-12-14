@@ -1,9 +1,8 @@
 package bsm.speaker.domain.post.domain;
 
-import bsm.speaker.domain.group.entities.Group;
+import bsm.speaker.domain.group.domain.Group;
 import bsm.speaker.domain.post.domain.dto.response.PostResponseDto;
 import bsm.speaker.domain.user.domain.User;
-import bsm.speaker.domain.user.domain.dto.response.UserResponse;
 import bsm.speaker.domain.user.facade.UserFacade;
 import bsm.speaker.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -12,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Entity
@@ -44,6 +43,9 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String content;
 
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private final Set<PostViewer> viewers = new HashSet<>();
+
     @Builder
     public Post(long id, String groupId, Group group, Long userCode, User user, String title, String content) {
         this.id = id;
@@ -64,6 +66,10 @@ public class Post extends BaseTimeEntity {
                 .user(userFacade.toBoardUserResponse(user))
                 .createdAt(getCreatedAt())
                 .permission(Objects.equals(userCode, user.getUserCode()))
+                .viewers(viewers.stream()
+                        .map(viewer -> viewer.toResponse(userFacade))
+                        .toList()
+                )
                 .build();
     }
 }

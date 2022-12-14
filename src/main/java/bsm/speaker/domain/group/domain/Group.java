@@ -1,4 +1,4 @@
-package bsm.speaker.domain.group.entities;
+package bsm.speaker.domain.group.domain;
 
 import bsm.speaker.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;

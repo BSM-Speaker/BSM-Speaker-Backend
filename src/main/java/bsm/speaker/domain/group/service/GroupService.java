@@ -1,14 +1,14 @@
-package bsm.speaker.domain.group;
+package bsm.speaker.domain.group.service;
 
-import bsm.speaker.domain.group.dto.request.CreateGroupRequestDto;
-import bsm.speaker.domain.group.dto.request.GroupRequestDto;
-import bsm.speaker.domain.group.dto.response.CreateGroupResponseDto;
-import bsm.speaker.domain.group.dto.response.GroupResponseDto;
-import bsm.speaker.domain.group.entities.Group;
-import bsm.speaker.domain.group.entities.Member;
-import bsm.speaker.domain.group.entities.MemberPk;
-import bsm.speaker.domain.group.repositories.GroupRepository;
-import bsm.speaker.domain.group.repositories.MemberRepository;
+import bsm.speaker.domain.group.domain.dto.request.CreateGroupRequestDto;
+import bsm.speaker.domain.group.domain.dto.request.GroupRequestDto;
+import bsm.speaker.domain.group.domain.dto.response.CreateGroupResponseDto;
+import bsm.speaker.domain.group.domain.dto.response.GroupResponseDto;
+import bsm.speaker.domain.group.domain.Group;
+import bsm.speaker.domain.group.domain.Member;
+import bsm.speaker.domain.group.domain.MemberPk;
+import bsm.speaker.domain.group.domain.GroupRepository;
+import bsm.speaker.domain.group.domain.MemberRepository;
 import bsm.speaker.domain.user.domain.dto.response.UserResponse;
 import bsm.speaker.domain.user.domain.User;
 import bsm.speaker.global.error.exceptions.ConflictException;

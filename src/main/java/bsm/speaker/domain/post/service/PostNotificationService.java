@@ -1,7 +1,7 @@
 package bsm.speaker.domain.post.service;
 
-import bsm.speaker.domain.group.entities.Member;
-import bsm.speaker.domain.group.repositories.MemberRepository;
+import bsm.speaker.domain.group.domain.Member;
+import bsm.speaker.domain.group.domain.MemberRepository;
 import bsm.speaker.domain.post.domain.Post;
 import bsm.speaker.domain.user.domain.User;
 import bsm.speaker.domain.user.facade.UserFacade;

@@ -1,4 +1,4 @@
-package bsm.speaker.domain.group.dto.response;
+package bsm.speaker.domain.group.domain.dto.response;
 
 import bsm.speaker.domain.user.domain.dto.response.UserResponse;
 import lombok.Builder;

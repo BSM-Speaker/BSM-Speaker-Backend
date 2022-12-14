@@ -9,13 +9,14 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
 public class PostResponseDto {
 
     private String groupId;
-    
+
     private long id;
 
     private String title;
@@ -29,4 +30,6 @@ public class PostResponseDto {
     private LocalDateTime createdAt;
 
     private boolean permission;
+
+    private List<UserResponse> viewers;
 }

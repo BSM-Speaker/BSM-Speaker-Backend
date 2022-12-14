@@ -1,4 +1,4 @@
-package bsm.speaker.domain.group.entities;
+package bsm.speaker.domain.group.domain;
 
 import lombok.Builder;
 import lombok.Getter;

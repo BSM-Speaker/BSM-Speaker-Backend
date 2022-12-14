@@ -1,4 +1,4 @@
-package bsm.speaker.domain.group.dto.request;
+package bsm.speaker.domain.group.domain.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
