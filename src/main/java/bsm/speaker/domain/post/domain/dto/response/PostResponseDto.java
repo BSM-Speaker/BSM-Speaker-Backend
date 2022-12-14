@@ -32,4 +32,6 @@ public class PostResponseDto {
     private boolean permission;
 
     private List<UserResponse> viewers;
+
+    private List<String> images;
 }

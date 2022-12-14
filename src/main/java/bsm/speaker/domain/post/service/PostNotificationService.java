@@ -28,7 +28,7 @@ public class PostNotificationService {
     private final UserFacade userFacade;
 
     public void sendNewPostNotification(Post post) throws JsonProcessingException {
-        List<User> userList = memberRepository.findAllByPkGroupId(post.getGroupId())
+        List<User> userList = memberRepository.findAllByPkGroupId(post.getGroup().getId())
                 .stream().map(Member::getUser)
                 .toList();
 
@@ -40,7 +40,7 @@ public class PostNotificationService {
         WebPushSendDto webPushSendDto = WebPushSendDto.builder()
                 .title("새로운 긴급 정보가 올라왔습니다")
                 .body(post.getTitle())
-                .link("https://speaker.bssm.kro.kr/group/"+post.getGroupId())
+                .link("https://speaker.bssm.kro.kr/group/"+post.getGroup().getId())
                 .build();
 
         List<WebPush> webPushList = webPushRepository.findAllByUserIn(userList);

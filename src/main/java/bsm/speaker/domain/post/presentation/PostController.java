@@ -9,8 +9,11 @@ import bsm.speaker.global.utils.UserUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,8 +34,17 @@ public class PostController {
     }
 
     @PostMapping
-    public void writePost(@RequestBody @Valid PostWriteRequestDto dto) throws JsonProcessingException {
-        postService.writePost(userUtil.getCurrentUser(), dto);
+    public void writePost(
+            @RequestPart(value = "groupId") String groupId,
+            @RequestPart(value = "title") String title,
+            @RequestPart(value = "content") String content,
+            @RequestPart(value = "imageList", required = false) List<MultipartFile> imageList
+    ) throws JsonProcessingException {
+        if (imageList == null) imageList = new ArrayList<>();
+        postService.writePost(
+                userUtil.getCurrentUser(),
+                new PostWriteRequestDto(title, content, groupId, imageList)
+        );
     }
 
     @DeleteMapping("{postId}")
@@ -47,4 +59,5 @@ public class PostController {
     ) {
         postService.viewPost(userUtil.getCurrentUser(), new PostViewRequestDto(postId, groupId));
     }
+
 }

@@ -23,11 +23,7 @@ public class Post extends BaseTimeEntity {
     @Column(columnDefinition = "INT UNSIGNED")
     private long id;
 
-    @Column(length = 6)
-    private String groupId;
-
     @ManyToOne
-    @JoinColumn(name = "groupId", nullable = false, insertable = false, updatable = false)
     private Group group;
 
     @Column(columnDefinition = "INT UNSIGNED")
@@ -44,12 +40,16 @@ public class Post extends BaseTimeEntity {
     private String content;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OrderBy("id desc")
     private final Set<PostViewer> viewers = new HashSet<>();
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OrderBy("id desc")
+    private final Set<PostImage> images = new HashSet<>();
 
     @Builder
     public Post(long id, String groupId, Group group, Long userCode, User user, String title, String content) {
         this.id = id;
-        this.groupId = groupId;
         this.group = group;
         this.userCode = userCode;
         this.user = user;
@@ -59,7 +59,7 @@ public class Post extends BaseTimeEntity {
 
     public PostResponseDto toResponse(UserFacade userFacade, User user) {
         return PostResponseDto.builder()
-                .groupId(groupId)
+                .groupId(group.getId())
                 .id(id)
                 .title(title)
                 .content(content)
@@ -68,6 +68,10 @@ public class Post extends BaseTimeEntity {
                 .permission(Objects.equals(userCode, user.getUserCode()))
                 .viewers(viewers.stream()
                         .map(viewer -> viewer.toResponse(userFacade))
+                        .toList()
+                )
+                .images(images.stream()
+                        .map(PostImage::getPath)
                         .toList()
                 )
                 .build();

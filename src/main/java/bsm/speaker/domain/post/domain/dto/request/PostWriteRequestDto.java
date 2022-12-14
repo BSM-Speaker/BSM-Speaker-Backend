@@ -3,12 +3,13 @@ package bsm.speaker.domain.post.domain.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
-@RequiredArgsConstructor
 @AllArgsConstructor
 public class PostWriteRequestDto {
 
@@ -23,4 +24,7 @@ public class PostWriteRequestDto {
     @NotBlank
     @Size(min = 6, max = 6)
     private String groupId;
+
+    @Size(max = 5)
+    private List<MultipartFile> imageList;
 }
