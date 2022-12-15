@@ -45,7 +45,7 @@ public class Post extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("id desc")
-    private final Set<PostImage> images = new HashSet<>();
+    private Set<PostImage> images = new HashSet<>();
 
     @Builder
     public Post(long id, String groupId, Group group, Long userCode, User user, String title, String content) {
@@ -57,7 +57,7 @@ public class Post extends BaseTimeEntity {
         this.content = content;
     }
 
-    public PostResponseDto toResponse(UserFacade userFacade, User user) {
+    public PostResponseDto toResponse(UserFacade userFacade, User viewUser) {
         return PostResponseDto.builder()
                 .groupId(group.getId())
                 .id(id)
@@ -65,7 +65,7 @@ public class Post extends BaseTimeEntity {
                 .content(content)
                 .user(userFacade.toBoardUserResponse(user))
                 .createdAt(getCreatedAt())
-                .permission(Objects.equals(userCode, user.getUserCode()))
+                .permission(Objects.equals(viewUser.getUserCode(), user.getUserCode()))
                 .viewers(viewers.stream()
                         .map(viewer -> viewer.toResponse(userFacade))
                         .toList()
@@ -75,5 +75,9 @@ public class Post extends BaseTimeEntity {
                         .toList()
                 )
                 .build();
+    }
+
+    public void setImages(Set<PostImage> images) {
+        this.images = images;
     }
 }

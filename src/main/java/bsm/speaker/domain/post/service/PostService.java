@@ -28,10 +28,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.SecureRandom;
-import java.util.Comparator;
-import java.util.HexFormat;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Validated
@@ -54,7 +51,7 @@ public class PostService {
         Group group = groupFacade.getGroup(user, dto.getGroupId());
         Pageable pageable = PageRequest.of(dto.getPage() - 1, dto.getLimit());
         return postFacade.getPostList(group, pageable).stream()
-                .map(post -> post.toResponse(userFacade, post.getUser()))
+                .map(post -> post.toResponse(userFacade, user))
                 .toList();
     }
 
@@ -66,24 +63,26 @@ public class PostService {
         Post newPost = Post.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
+                .user(user)
                 .userCode(user.getUserCode())
                 .group(group)
                 .build();
         Post post = postFacade.save(newPost);
-        List<PostImage> postImageList = imageList.stream()
+        List<PostImage> newPostImageList = imageList.stream()
                 .map(path -> PostImage.builder()
                         .post(post)
                         .path(path)
                         .build()
                 ).toList();
-        postImageRepository.saveAll(postImageList);
+        Set<PostImage> postImageSet = new HashSet<>(postImageRepository.saveAll(newPostImageList));
+        post.setImages(postImageSet);
 
         postNotification.sendNewPostNotification(post);
     }
 
     public void deletePost(User user, long postId) {
         Post post = postFacade.findById(postId);
-        if (!Objects.equals(post.getUserCode(), user.getUserCode())) {
+        if (!Objects.equals(post.getUser().getUserCode(), user.getUserCode())) {
             throw new ForbiddenException("권한이 없습니다");
         }
         postFacade.delete(post);
